@@ -5,7 +5,7 @@ We are exploring a particular use case where CSV files are received via email an
 
 Instead of manually checking the email received, downloading the file and then updating the database. We will automate the whole process where the email is checked for the particular attachment received and then updates it to Postgres database directly.
 
-# Assumptions and Caveats:
+# Assumptions and Caveats
 
 - Monthly sales data in email is received by the user in CSV format only.
 - CSV headers match the table columns exactly.
