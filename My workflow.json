@@ -1,0 +1,202 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "simple": false,
+        "filters": {
+          "labelIds": [
+            "INBOX"
+          ],
+          "q": "subject: sales"
+        },
+        "options": {
+          "downloadAttachments": true
+        }
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "ff4b2d23-a3cf-4f04-8840-203ed8a6efe4",
+      "name": "Gmail Trigger",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "cAnZl3R5Dn4Wr3mQ",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "fact_sales",
+          "mode": "list",
+          "cachedResultName": "fact_sales"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "OrderID": "={{ $json.OrderID }}",
+            "OrdersDate": "={{ $json.OrderDate }}",
+            "CustomerName": "={{ $json.CustomerName }}",
+            "CustomerEmail": "={{ $json.CustomerEmail }}",
+            "Amount": "={{ $json.Amount }}",
+            "Region": "={{ $json.Region }}",
+            "Status": "={{ $json.Status }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "OrderID",
+              "displayName": "OrderID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "OrdersDate",
+              "displayName": "OrdersDate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CustomerName",
+              "displayName": "CustomerName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CustomerEmail",
+              "displayName": "CustomerEmail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Amount",
+              "displayName": "Amount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Region",
+              "displayName": "Region",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.8,
+      "position": [
+        448,
+        0
+      ],
+      "id": "4b51a51e-cab8-43b9-86e2-ce22c54540f0",
+      "name": "Insert rows in a table",
+      "credentials": {
+        "postgres": {
+          "id": "GDxHqVFNAEJNIZJ6",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "binaryPropertyName": "attachment_0",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.2,
+      "position": [
+        224,
+        0
+      ],
+      "id": "04a57ccd-623d-4eed-9918-1f06d29dbae8",
+      "name": "Extract from File"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Insert rows in a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "686c0323-cfe7-4c97-a0ac-19b3cc03a7c2",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c47cff5ac3cdddc463407d6b5809460655a963d9d9139b2d3e8ca0f00620b686"
+  },
+  "nodeGroups": [],
+  "id": "aDNYi71hdwVteoUi",
+  "tags": []
+}
